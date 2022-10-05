@@ -114,6 +114,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 SetOverlayFragment(index);
             }
         });
+
+
+
+
     }
 
     //Set Active NavBar Color
@@ -200,7 +204,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
         myLocation = mMap.addMarker(new MarkerOptions().position(loc).title("Location"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+        /*mMap.animateCamera(CameraUpdateFactory.newLatLng(loc));*/
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));
     }
 
     private void requestLocation() {

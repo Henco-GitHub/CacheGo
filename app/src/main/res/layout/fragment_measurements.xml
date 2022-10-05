@@ -4,9 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context=".fragment_measurements"
     android:background="#80000000"
-    android:clickable="true"
-    tools:context=".LoginActivity">
+    android:clickable="true">
 
 
     <LinearLayout
@@ -14,15 +14,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/yellow"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:gravity="center">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Account"
+            android:text="Measurements"
             android:textColor="@color/black"
+            android:gravity="center"
             android:textSize="30dp">
 
         </TextView>
@@ -33,52 +33,35 @@
         android:id="@+id/content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_below="@id/logo_banner"
-        android:gravity="center"
-        android:orientation="horizontal">
+        android:gravity="center">
 
         <Button
-            android:id="@+id/btnAccountName"
+            android:id="@+id/btnMetricSystem"
             android:layout_width="250dp"
             android:layout_height="100dp"
             android:layout_marginTop="30dp"
             android:backgroundTint="@color/yellow"
-            android:enabled="false"
-            android:text="Kootherpalli"
-            android:textColor="@color/black">
+            android:text="Metric System"
+            android:textColor="@color/black"></Button>
 
+        <Button
+            android:id="@+id/btnImperialSystem"
+            android:layout_width="250dp"
+            android:layout_height="100dp"
+            android:text="Imperial System"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/yellow"
+            android:layout_below="@id/btnMetricSystem">
         </Button>
 
 
-        <Button
-            android:id="@+id/btnCacheHistory"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/btnAccountName"
-            android:backgroundTint="@color/yellow"
-            android:text="Cache History"
-            android:textColor="@color/black"></Button>
-
-        <Button
-            android:id="@+id/btnFavourites"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/btnCacheHistory"
-            android:backgroundTint="@color/yellow"
-            android:text="Favourites"
-            android:textColor="@color/black"></Button>
-
-        <Button
-            android:id="@+id/btnMyCaches"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/btnFavourites"
-            android:backgroundTint="@color/yellow"
-            android:text="My Caches"
-            android:textColor="@color/black"></Button>
-
-
     </RelativeLayout>
+
+
+
+
 
 
 </RelativeLayout>

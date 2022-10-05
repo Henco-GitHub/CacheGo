@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".LoginActivity"
+    android:background="#80000000"
+    android:clickable="true">
+
+
+    <LinearLayout
+        android:id="@+id/logo_banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/yellow"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Account"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:textSize="30dp">
+
+        </TextView>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/logo_banner"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btnAccountName"
+            android:layout_width="250dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="30dp"
+            android:backgroundTint="@color/yellow"
+            android:text="Kootherpalli"
+            android:textColor="@color/black"
+            android:enabled="false">
+
+        </Button>
+
+
+
+    <Button
+        android:id="@+id/btnCacheHistory"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:text="Cache History"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/yellow"
+        android:layout_below="@id/btnAccountName">
+    </Button>
+
+        <Button
+            android:id="@+id/btnFavourites"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="Favourites"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/yellow"
+            android:layout_below="@id/btnCacheHistory">
+        </Button>
+
+        <Button
+            android:id="@+id/btnMyCaches"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="My Caches"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/yellow"
+            android:layout_below="@id/btnFavourites">
+        </Button>
+
+
+</RelativeLayout>
+
+
+
+
+
+
+</RelativeLayout>
+

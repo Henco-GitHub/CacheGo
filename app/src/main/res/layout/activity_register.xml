@@ -97,10 +97,10 @@
             android:id="@+id/btnRegister"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:text="REGISTER"
-            android:textColor="@color/black"
+            android:layout_below="@+id/edtConfirmPassword"
             android:backgroundTint="@color/yellow"
-            android:layout_below="@+id/edtConfirmPassword">
+            android:text="REGISTER"
+            android:textColor="@color/black">
 
         </Button>
 

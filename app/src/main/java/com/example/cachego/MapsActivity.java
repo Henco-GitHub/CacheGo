@@ -1,8 +1,14 @@
 package com.example.cachego;
 
+import static com.example.cachego.R.color.green;
+import static com.example.cachego.R.color.yellow;
+
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -13,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -39,12 +46,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
 
+    Fragment OverlayFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        /*FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        OverlayFragment = new fragment_account();
+        transaction.replace(R.id.overlay_fragment, OverlayFragment);
+        transaction.commit();*/
+
+        SetOverlayFragment(1);
 
         //Permissions for newer SDK
         if (Build.VERSION.SDK_INT >= 23) {
@@ -66,7 +83,88 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 handler.postDelayed(this, HANDLER_DELAY);
             }
         }, START_HANDLER_DELAY);
+        
+        //Nav Bar Button CLicks
+        //ImageButton Index 0
+        binding.navAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int index = 0;
+                SetActiveNavBarColor(index);
+                SetOverlayFragment(index);
+            }
+        });
+
+        //ImageButton Index 1
+        binding.navMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int index = 1;
+                SetActiveNavBarColor(index);
+                SetOverlayFragment(index);
+            }
+        });
+
+        //ImageButton Index 2
+        binding.navSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                int index = 2;
+                SetActiveNavBarColor(index);
+                SetOverlayFragment(index);
+            }
+        });
     }
+
+    //Set Active NavBar Color
+    private void SetActiveNavBarColor(int index) {
+        binding.navAccount.setBackgroundColor(getResources().getColor(yellow));
+        binding.navMap.setBackgroundColor(getResources().getColor(yellow));
+        binding.navSettings.setBackgroundColor(getResources().getColor(yellow));
+
+        switch (index) {
+            case 0:
+                binding.navAccount.setBackgroundColor(getResources().getColor(green));
+                break;
+            case 1:
+                binding.navMap.setBackgroundColor(getResources().getColor(green));
+                break;
+            case 2:
+                binding.navSettings.setBackgroundColor(getResources().getColor(green));
+                break;
+        }
+    }
+
+    //Set OverlayFragment
+    private void SetOverlayFragment(int index) {
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+
+        switch (index) {
+            case 0:
+                OverlayFragment = new fragment_account();
+                transaction.replace(R.id.overlay_fragment, OverlayFragment);
+                transaction.commit();
+                break;
+            case 1:
+                OverlayFragment = new fragment_account();
+                transaction.replace(R.id.overlay_fragment, OverlayFragment);
+                transaction.hide(OverlayFragment);
+                transaction.commit();
+                break;
+        }
+    }
+
+    /*
+    weatherFragment = new WeatherFragment();
+    tideFragment = new TideFragment();
+
+    FragmentManager manager = getSupportFragmentManager();
+    FragmentTransaction transaction = manager.beginTransaction();
+    transaction.replace(R.id.weather_fragment_container, weatherFragment);
+    transaction.replace(R.id.tide_fragment_container, tideFragment);
+    transaction.commit();
+    */
 
     /**
      * Manipulates the map once available.
@@ -93,9 +191,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
         Log.d("mylog", "Got Location: " + location.getLatitude() + ", "
                 + location.getLongitude());
-        Toast.makeText(MapsActivity.this, "Got coordinates: "
-                + location.getLatitude() + ", " +
-                location.getLongitude(), Toast.LENGTH_SHORT).show();
         locationManager.removeUpdates(this);
 
         LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());

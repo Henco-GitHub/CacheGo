@@ -1,18 +1,40 @@
 package com.example.cachego;
 
+import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.cachego.databinding.ActivityMapsBinding;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
+
+    //Location Tracking
+    LocationManager locationManager;
+    private static final int GPS_TIME_INTERVAL = 50; // get GPS location every 1 min
+    private static final int GPS_DISTANCE = 1000; // set distance value in meter
+    private static final int HANDLER_DELAY = 50;
+    private static final int START_HANDLER_DELAY = 0;
+    final static String[] PERMISSION = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
+    final static int PERMISSION_ALL = 1;
+    private Marker myLocation;
 
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
@@ -24,10 +46,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        //Permissions for newer SDK
+        if (Build.VERSION.SDK_INT >= 23) {
+            requestPermissions(PERMISSION, PERMISSION_ALL);
+        }
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        //Location Updating
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            public void run()
+            {
+                requestLocation();
+                handler.postDelayed(this, HANDLER_DELAY);
+            }
+        }, START_HANDLER_DELAY);
     }
 
     /**
@@ -42,10 +80,43 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+    }
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    @Override
+    public void onLocationChanged(@NonNull Location location)
+    {
+        try {
+            myLocation.remove();
+        }
+        catch (Exception e) {
+
+        }
+        Log.d("mylog", "Got Location: " + location.getLatitude() + ", "
+                + location.getLongitude());
+        Toast.makeText(MapsActivity.this, "Got coordinates: "
+                + location.getLatitude() + ", " +
+                location.getLongitude(), Toast.LENGTH_SHORT).show();
+        locationManager.removeUpdates(this);
+
+        LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
+        myLocation = mMap.addMarker(new MarkerOptions().position(loc).title("Location"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(loc));
+    }
+
+    private void requestLocation() {
+        if (locationManager == null)
+            locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+        {
+            if (ActivityCompat.checkSelfPermission(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION) ==
+                    PackageManager.PERMISSION_GRANTED &&
+                    ActivityCompat.checkSelfPermission(this,
+                            Manifest.permission.ACCESS_COARSE_LOCATION) ==
+                            PackageManager.PERMISSION_GRANTED) {
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_TIME_INTERVAL, GPS_DISTANCE, this);
+            }
+        }
     }
 }

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SettingsFragment"
+    android:background="#80000000"
+    android:clickable="true">
+
+
+    <LinearLayout
+        android:id="@+id/logo_banner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/yellow"
+        android:orientation="vertical"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Settings"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:textSize="30dp">
+
+        </TextView>
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/logo_banner"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btnMeasurementSystem"
+            android:layout_width="250dp"
+            android:layout_marginTop="30dp"
+            android:layout_height="wrap_content"
+            android:text="Measurement System"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/yellow">
+        </Button>
+
+        <Button
+            android:id="@+id/btnCachePreferences"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:text="Cache Preferences"
+            android:textColor="@color/black"
+            android:backgroundTint="@color/yellow"
+            android:layout_below="@id/btnMeasurementSystem">
+        </Button>
+
+
+    </RelativeLayout>
+
+
+
+
+
+
+</RelativeLayout>
+

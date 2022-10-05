@@ -152,6 +152,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 transaction.hide(OverlayFragment);
                 transaction.commit();
                 break;
+            case 2:
+                OverlayFragment = new SettingsFragment();
+                transaction.replace(R.id.overlay_fragment, OverlayFragment);
+                transaction.commit();
+                break;
         }
     }
 

@@ -13,6 +13,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -27,10 +29,21 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.example.cachego.databinding.ActivityMapsBinding;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
 
@@ -50,6 +63,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
+    private FirebaseAuth FireAuth;
+
+    private ArrayList<Cache> cacheArrayList;
 
     Fragment OverlayFragment;
 
@@ -60,12 +76,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        /*FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        OverlayFragment = new fragment_account();
-        transaction.replace(R.id.overlay_fragment, OverlayFragment);
-        transaction.commit();*/
-
         SetOverlayFragment(1);
 
         //Permissions for newer SDK
@@ -74,8 +84,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
         //Location Updating
@@ -124,14 +133,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onClick(View view) {
                 try {
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));
-                }
-                catch (Exception e) {
+                } catch (Exception e) {
 
                 }
             }
         });
 
-
+        LoadCaches();
     }
 
     //Set Active NavBar Color
@@ -178,17 +186,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         }
     }
 
-    /*
-    weatherFragment = new WeatherFragment();
-    tideFragment = new TideFragment();
-
-    FragmentManager manager = getSupportFragmentManager();
-    FragmentTransaction transaction = manager.beginTransaction();
-    transaction.replace(R.id.weather_fragment_container, weatherFragment);
-    transaction.replace(R.id.tide_fragment_container, tideFragment);
-    transaction.commit();
-    */
-
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -215,8 +212,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locationManager.removeUpdates(this);
 
         loc = new LatLng(location.getLatitude(), location.getLongitude());
-        myLocation = mMap.addMarker(new MarkerOptions().position(loc).title("Location"));
-        /*mMap.animateCamera(CameraUpdateFactory.newLatLng(loc));*/
+        MarkerOptions marker = new MarkerOptions().position(loc);
+
+        //Icon Creation
+        int height = 50;
+        int width = 50;
+        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.map_user_icon);
+        Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+        BitmapDescriptor smallMarkerIcon = BitmapDescriptorFactory.fromBitmap(smallMarker);
+
+        //Set Marker Icon
+        marker.icon(smallMarkerIcon);
+        myLocation = mMap.addMarker(marker);
 
         if (locFound == false) {
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));
@@ -238,5 +245,61 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, GPS_TIME_INTERVAL, GPS_DISTANCE, this);
             }
         }
+    }
+
+    private void LoadCaches() {
+        cacheArrayList = new ArrayList<>();
+        DatabaseReference refCollections = FirebaseDatabase.getInstance().getReference("caches");
+
+        refCollections.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                cacheArrayList.clear();
+
+                for (DataSnapshot snap : snapshot.getChildren()) {
+                    Cache c = snap.getValue(Cache.class);
+
+                    cacheArrayList.add(c);
+                    AddCacheToMap(c);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void AddCacheToMap(Cache c) {
+        //Icon size
+        int height = 100;
+        int width = 100;
+
+        //Easy Default Icon
+        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.map_cache_easy);
+
+        //Marker Object Creation
+        LatLng cache_location = new LatLng(c.getLat(), c.getLon());
+        MarkerOptions marker = new MarkerOptions().position(cache_location);
+
+        //Check Difficulty
+        switch (c.getDifficulty()) {
+            case "easy":
+                b = BitmapFactory.decodeResource(getResources(), R.drawable.map_cache_easy);
+                break;
+            case "normal":
+                b = BitmapFactory.decodeResource(getResources(), R.drawable.map_cache_normal);
+                break;
+            case "hard":
+                b = BitmapFactory.decodeResource(getResources(), R.drawable.map_cache_hard);
+                break;
+        }
+
+        Bitmap smallMarker = Bitmap.createScaledBitmap(b, width, height, false);
+        BitmapDescriptor smallMarkerIcon = BitmapDescriptorFactory.fromBitmap(smallMarker);
+
+        marker.icon(smallMarkerIcon);
+        Marker cache_marker = mMap.addMarker(marker);
     }
 }

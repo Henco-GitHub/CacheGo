@@ -1,5 +1,6 @@
 package com.example.cachego;
 
+import static com.example.cachego.R.color.blue;
 import static com.example.cachego.R.color.green;
 import static com.example.cachego.R.color.yellow;
 
@@ -42,6 +43,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     final static String[] PERMISSION = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
     final static int PERMISSION_ALL = 1;
     private Marker myLocation;
+    private LatLng loc;
+
+    //Location found
+    private boolean locFound = false;
 
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
@@ -77,13 +82,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
-            public void run()
-            {
+            public void run() {
                 requestLocation();
                 handler.postDelayed(this, HANDLER_DELAY);
             }
         }, START_HANDLER_DELAY);
-        
+
         //Nav Bar Button CLicks
         //ImageButton Index 0
         binding.navAccount.setOnClickListener(new View.OnClickListener() {
@@ -115,7 +119,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
+        binding.btnRelocate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));
+                }
+                catch (Exception e) {
 
+                }
+            }
+        });
 
 
     }
@@ -131,7 +145,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 binding.navAccount.setBackgroundColor(getResources().getColor(green));
                 break;
             case 1:
-                binding.navMap.setBackgroundColor(getResources().getColor(green));
+                binding.navMap.setBackgroundColor(getResources().getColor(blue));
                 break;
             case 2:
                 binding.navSettings.setBackgroundColor(getResources().getColor(green));
@@ -190,30 +204,31 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @Override
-    public void onLocationChanged(@NonNull Location location)
-    {
+    public void onLocationChanged(@NonNull Location location) {
         try {
             myLocation.remove();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
 
         }
         Log.d("mylog", "Got Location: " + location.getLatitude() + ", "
                 + location.getLongitude());
         locationManager.removeUpdates(this);
 
-        LatLng loc = new LatLng(location.getLatitude(), location.getLongitude());
+        loc = new LatLng(location.getLatitude(), location.getLongitude());
         myLocation = mMap.addMarker(new MarkerOptions().position(loc).title("Location"));
         /*mMap.animateCamera(CameraUpdateFactory.newLatLng(loc));*/
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));
+
+        if (locFound == false) {
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(loc, 16.0f));
+            locFound = true;
+        }
     }
 
     private void requestLocation() {
         if (locationManager == null)
             locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
-        {
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             if (ActivityCompat.checkSelfPermission(this,
                     Manifest.permission.ACCESS_FINE_LOCATION) ==
                     PackageManager.PERMISSION_GRANTED &&

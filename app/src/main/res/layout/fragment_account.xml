@@ -6,80 +6,192 @@
     android:layout_height="match_parent"
     android:background="#80000000"
     android:clickable="true"
-    tools:context=".LoginActivity">
+    tools:context=".fragment_account">
 
 
-    <LinearLayout
-        android:id="@+id/logo_banner"
+    <RelativeLayout
+        android:id="@+id/llScreenTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/yellow"
-        android:gravity="center"
-        android:orientation="vertical">
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:gravity="center"
             android:text="Account"
+            android:textAlignment="center"
             android:textColor="@color/black"
-            android:textSize="30dp">
+            android:textSize="25dp"></TextView>
 
-        </TextView>
-
-    </LinearLayout>
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/logo_banner"
-        android:gravity="center"
+        android:layout_height="match_parent"
+        android:layout_below="@id/llScreenTitle"
+        android:layout_margin="25dp"
+        android:background="@color/yellow"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btnAccountName"
-            android:layout_width="250dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="30dp"
-            android:backgroundTint="@color/yellow"
-            android:enabled="false"
-            android:text="Kootherpalli"
-            android:textColor="@color/black">
+        <LinearLayout
+            android:id="@+id/llDifficulty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
-        </Button>
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp"></Space>
+
+            <RelativeLayout
+                android:id="@+id/rlAccount"
+                android:layout_width="300dp"
+                android:layout_height="112dp"
+                android:background="@color/black"
+                android:padding="3dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/yellow"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".3"
+                        android:src="@drawable/nav_account"></ImageView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight=".7"
+                        android:text="Henco Chris Barkhuizen"
+                        android:textAlignment="center"
+                        android:textColor="@color/black"
+                        android:textSize="20dp"></TextView>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp"></Space>
+
+            <RelativeLayout
+                android:id="@+id/rlCacheHistory"
+                android:layout_width="300dp"
+                android:layout_height="56dp"
+                android:background="@color/black"
+                android:padding="3dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@color/yellow"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Cache History"
+                        android:textColor="@color/black"
+                        android:textSize="20dp"></TextView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="View History of Visited Caches"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"></TextView>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp"></Space>
+
+            <RelativeLayout
+                android:id="@+id/rlFavourites"
+                android:layout_width="300dp"
+                android:layout_height="56dp"
+                android:background="@color/black"
+                android:padding="3dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@color/yellow"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Favourites"
+                        android:textColor="@color/black"
+                        android:textSize="20dp"></TextView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="View Favourite Caches"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"></TextView>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp"></Space>
+
+            <RelativeLayout
+                android:id="@+id/rlMyCaches"
+                android:layout_width="300dp"
+                android:layout_height="56dp"
+                android:background="@color/black"
+                android:padding="3dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:background="@color/yellow"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="My Caches"
+                        android:textColor="@color/black"
+                        android:textSize="20dp"></TextView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="View My Caches"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"></TextView>
+
+                </LinearLayout>
+
+            </RelativeLayout>
 
 
-        <Button
-            android:id="@+id/btnCacheHistory"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/btnAccountName"
-            android:backgroundTint="@color/yellow"
-            android:text="Cache History"
-            android:textColor="@color/black"></Button>
-
-        <Button
-            android:id="@+id/btnFavourites"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/btnCacheHistory"
-            android:backgroundTint="@color/yellow"
-            android:text="Favourites"
-            android:textColor="@color/black"></Button>
-
-        <Button
-            android:id="@+id/btnMyCaches"
-            android:layout_width="250dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/btnFavourites"
-            android:backgroundTint="@color/yellow"
-            android:text="My Caches"
-            android:textColor="@color/black"></Button>
-
+        </LinearLayout>
 
     </RelativeLayout>
 
-
 </RelativeLayout>
-

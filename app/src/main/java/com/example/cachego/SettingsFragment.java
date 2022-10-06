@@ -78,12 +78,25 @@ public class SettingsFragment extends Fragment {
         binding = FragmentSettingsBinding.inflate(inflater,container,false);
         View view = binding.getRoot();
 
-        binding.btnCachePreferences.setOnClickListener(new View.OnClickListener() {
+        binding.rlCachePreferences.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 FragmentManager manager = getParentFragmentManager();
                 FragmentTransaction transaction = manager.beginTransaction();
                 OverlayFragment = new fragment_cachePreferences();
+                transaction.replace(R.id.overlay_fragment, OverlayFragment);
+                transaction.commit();
+
+                Log.d("Button", "Clicked");
+            }
+        });
+
+        binding.rlMeasurement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FragmentManager manager = getParentFragmentManager();
+                FragmentTransaction transaction = manager.beginTransaction();
+                OverlayFragment = new fragment_measurements();
                 transaction.replace(R.id.overlay_fragment, OverlayFragment);
                 transaction.commit();
 

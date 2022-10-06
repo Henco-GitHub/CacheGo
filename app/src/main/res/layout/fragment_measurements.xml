@@ -4,65 +4,159 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment_measurements"
     android:background="#80000000"
-    android:clickable="true">
+    android:clickable="true"
+    tools:context=".fragment_measurements">
 
 
-    <LinearLayout
-        android:id="@+id/logo_banner"
+    <RelativeLayout
+        android:id="@+id/llScreenTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/yellow"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Measurements"
-            android:textColor="@color/black"
+            android:layout_height="50dp"
+            android:text="Measurement System"
+            android:textAlignment="center"
             android:gravity="center"
-            android:textSize="30dp">
+            android:textColor="@color/black"
+            android:textSize="25dp"></TextView>
 
-        </TextView>
+        <ImageButton
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:background="@color/yellow"
+            android:src="@drawable/img_arrow_back_black"></ImageButton>
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_below="@id/logo_banner"
-        android:gravity="center">
+        android:layout_height="match_parent"
+        android:layout_below="@id/llScreenTitle"
+        android:layout_margin="25dp"
+        android:background="@color/yellow"
+        android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btnMetricSystem"
-            android:layout_width="250dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="30dp"
-            android:backgroundTint="@color/yellow"
-            android:text="Metric System"
-            android:textColor="@color/black"></Button>
-
-        <Button
-            android:id="@+id/btnImperialSystem"
-            android:layout_width="250dp"
-            android:layout_height="100dp"
-            android:text="Imperial System"
+        <TextView
+            android:id="@+id/ScreenTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Choose a system"
+            android:textAlignment="center"
             android:textColor="@color/black"
-            android:backgroundTint="@color/yellow"
-            android:layout_below="@id/btnMetricSystem">
-        </Button>
+            android:textSize="22dp"></TextView>
 
+        <LinearLayout
+            android:id="@+id/llDifficulty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/ScreenTitle"
+            android:layout_above="@+id/btnSaveChanges"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp"></Space>
+
+            <RelativeLayout
+                android:id="@+id/rlMetric"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:background="@color/black"
+                android:padding="3dp">
+
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:text=" "
+                    android:background="@color/yellow"></CheckBox>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Metric System"
+                        android:textColor="@color/black"
+                        android:textSize="20dp"></TextView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Kilometres"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"></TextView>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp"></Space>
+
+            <RelativeLayout
+                android:id="@+id/rlImperial"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:background="@color/black"
+                android:padding="3dp">
+
+                <CheckBox
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:text=" "
+                    android:background="@color/yellow"></CheckBox>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Imperial System"
+                        android:textColor="@color/black"
+                        android:textSize="20dp"></TextView>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Miles"
+                        android:textColor="@color/black"
+                        android:textSize="15dp"></TextView>
+
+                </LinearLayout>
+
+            </RelativeLayout>
+
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnSaveChanges"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:text="Save Changes"
+            android:backgroundTint="@color/blue"
+            android:layout_margin="20dp"
+            android:layout_alignParentBottom="true"></Button>
 
     </RelativeLayout>
 
-
-
-
-
-
 </RelativeLayout>
-

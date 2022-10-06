@@ -19,6 +19,16 @@
         tools:context=".MapsActivity"
         android:layout_above="@+id/nav_bar"/>
 
+    <ImageButton
+        android:id="@+id/btnRelocate"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/map_relocate"
+        android:layout_above="@id/nav_bar"
+        android:scaleType="centerInside"
+        android:backgroundTint="@color/yellow"
+        android:layout_alignParentEnd="true"></ImageButton>
+
     <FrameLayout
         android:id="@+id/overlay_fragment"
         android:layout_width="match_parent"
